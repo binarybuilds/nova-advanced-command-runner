@@ -1,5 +1,5 @@
 {
-    "name": "guratr/nova-command-runner",
+    "name": "binarybuilds/nova-advanced-command-runner",
     "description": "Laravel Nova tool for running Artisan commands.",
     "keywords": [
         "laravel",
@@ -13,13 +13,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Guratr\\CommandRunner\\": "src/"
+            "BinaryBuilds\\NovaAdvancedCommandRunner\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Guratr\\CommandRunner\\ToolServiceProvider"
+                "BinaryBuilds\\NovaAdvancedCommandRunner\\ToolServiceProvider"
             ]
         }
     },

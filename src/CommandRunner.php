@@ -1,6 +1,6 @@
 <?php
 
-namespace Guratr\CommandRunner;
+namespace BinaryBuilds\NovaAdvancedCommandRunner;
 
 use Laravel\Nova\Nova;
 use Laravel\Nova\Tool;
@@ -14,8 +14,8 @@ class CommandRunner extends Tool
      */
     public function boot()
     {
-        Nova::script('command-runner', __DIR__ . '/../dist/js/tool.js');
-        Nova::style('command-runner', __DIR__ . '/../dist/css/tool.css');
+        Nova::script('nova-advanced-command-runner', __DIR__ . '/../dist/js/tool.js');
+        Nova::style('nova-advanced-command-runner', __DIR__ . '/../dist/css/tool.css');
     }
 
     /**
@@ -25,6 +25,6 @@ class CommandRunner extends Tool
      */
     public function renderNavigation()
     {
-        return view('command-runner::navigation');
+        return view('nova-advanced-command-runner::navigation');
     }
 }

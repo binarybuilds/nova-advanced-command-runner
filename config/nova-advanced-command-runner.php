@@ -14,4 +14,5 @@ return [
         'Down' => ['run' => 'down', 'options' => ['--allow' => ['127.0.0.1']], 'type' => 'dark', 'group' => 'Maintenance'],*/
     ],
     'history'  => 10,
+    'navigation_label' => 'Command Runner'
 ];

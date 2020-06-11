@@ -1,7 +1,7 @@
 <?php
 
-use Guratr\CommandRunner\Http\Controllers\HistoryController;
-use Guratr\CommandRunner\Http\Controllers\CommandsController;
+use BinaryBuilds\NovaAdvancedCommandRunner\Http\Controllers\HistoryController;
+use BinaryBuilds\NovaAdvancedCommandRunner\Http\Controllers\CommandsController;
 use Illuminate\Support\Facades\Route;
 
 /*

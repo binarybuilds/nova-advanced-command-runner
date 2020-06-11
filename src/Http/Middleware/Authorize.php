@@ -1,8 +1,8 @@
 <?php
 
-namespace Guratr\CommandRunner\Http\Middleware;
+namespace BinaryBuilds\NovaAdvancedCommandRunner\Http\Middleware;
 
-use Guratr\CommandRunner\CommandRunner;
+use BinaryBuilds\NovaAdvancedCommandRunner\CommandRunner;
 
 class Authorize
 {
