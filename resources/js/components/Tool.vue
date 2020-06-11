@@ -123,13 +123,13 @@
         },
         methods: {
             getHistory() {
-                Nova.request().get('/nova-vendor/guratr/command-runner/history/')
+                Nova.request().get('/nova-vendor/guratr/command-runner/history')
                     .then(response => {
                         this.history = response.data;
                     });
             },
             getCommands() {
-                Nova.request().get('/nova-vendor/guratr/command-runner/commands/')
+                Nova.request().get('/nova-vendor/guratr/command-runner/commands')
                     .then(response => {
                         this.groups = [];
                         for (let command in response.data) {
