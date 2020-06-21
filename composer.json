@@ -1,12 +1,7 @@
 {
     "name": "binarybuilds/nova-advanced-command-runner",
-    "description": "Laravel Nova tool for running Artisan commands.",
-    "keywords": [
-        "laravel",
-        "nova",
-        "Artisan",
-        "commands"
-    ],
+    "description": "Laravel Nova tool for running Artisan and bash(shell) commands.",
+    "keywords": ["laravel", "nova", "Artisan", "commands","shell","bash"],
     "license": "MIT",
     "require": {
         "php": ">=7.1.0"

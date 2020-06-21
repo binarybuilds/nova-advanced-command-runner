@@ -15,7 +15,7 @@ class CommandRunner extends Tool
     public function boot()
     {
         Nova::script('nova-advanced-command-runner', __DIR__ . '/../dist/js/tool.js');
-        Nova::style('nova-advanced-command-runner', __DIR__ . '/../dist/css/tool.css');
+//        Nova::style('nova-advanced-command-runner', __DIR__ . '/../dist/css/tool.css');
     }
 
     /**

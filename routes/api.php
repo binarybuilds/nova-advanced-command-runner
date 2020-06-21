@@ -1,6 +1,5 @@
 <?php
 
-use BinaryBuilds\NovaAdvancedCommandRunner\Http\Controllers\HistoryController;
 use BinaryBuilds\NovaAdvancedCommandRunner\Http\Controllers\CommandsController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,8 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/commands', CommandsController::class . '@index');
-Route::post('/commands/{index}/run', CommandsController::class . '@run');
-
-Route::get('/history', HistoryController::class . '@index');
+Route::get('/', CommandsController::class . '@index');
+Route::post('/run', CommandsController::class . '@run');
 
