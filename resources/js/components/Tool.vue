@@ -127,7 +127,7 @@
                     <td>{{value.ran_by}}</td>
                     <td><span class="badge" v-bind:class="'badge-'+value.status">{{value.status}}</span></td>
                     <td><pre v-html="value.result"></pre></td>
-                    <td>{{value.duration}} sec.</td>
+                    <td>{{value.duration ? value.duration + ' sec.' : ''}}</td>
                     <td class="table-fit">{{value.time}}</td>
                 </tr>
                 </tbody>
@@ -478,5 +478,9 @@
     .badge-error {
         color: #fff;
         background-color: #dc3545;
+    }
+    .badge-pending{
+        color:#212529;
+        background-color:#ffc107
     }
 </style>

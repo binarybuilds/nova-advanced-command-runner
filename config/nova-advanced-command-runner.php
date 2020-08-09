@@ -48,6 +48,12 @@ return [
             // You can also add html for help text.
             'help' => 'This is a destructive operation. Proceed only if you really know what you are doing.'
         ],
+
+        // Queueing commands
+        'Clear Cache' => [ 'run' => 'cache:clear --should-queue', 'type' => 'danger', 'group' => 'Cache' ],
+
+        // Queueing commands with custom connection and queue
+        'Clear Cache' => [ 'run' => 'cache:clear --should-queue --cr-connection=database --cr-queue=high', 'type' => 'danger', 'group' => 'Cache' ],
     */
     ],
     // Limit the command run history to latest 10 runs

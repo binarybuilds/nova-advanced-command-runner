@@ -11,6 +11,7 @@ This [Nova](https://nova.laravel.com) tool lets you run artisan and bash command
 - Use predefined values for variables using a select box or prompt the user to enter a value for the variable.
 - Keep track of command run history
 - No database changes required. Everything is managed from a single config file.
+- Queue long running commands
 
 ![screenshot of the command runner tool](screenshots/tool.png)
 
@@ -156,6 +157,16 @@ in the configuration file.
         // You can also add html for help text.
         'help' => 'This is a destructive operation. Proceed only if you really know what you are doing.'
     ],
+    
+    
+    
+    // Queueing commands
+    'Clear Cache' => [ 'run' => 'cache:clear --should-queue', 'type' => 'danger', 'group' => 'Cache' ],
+    
+        
+        
+    // Queueing commands on custom queue and connection
+    'Clear Cache' => [ 'run' => 'cache:clear --should-queue --cr-queue=high --cr-connection=database', 'type' => 'danger', 'group' => 'Cache' ],
 ]
 ```
 

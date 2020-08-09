@@ -2,11 +2,11 @@
 
 namespace BinaryBuilds\NovaAdvancedCommandRunner\Http\Controllers;
 
+use BinaryBuilds\NovaAdvancedCommandRunner\CommandService;
+use BinaryBuilds\NovaAdvancedCommandRunner\Dto\CommandDto;
+use BinaryBuilds\NovaAdvancedCommandRunner\Dto\RunDto;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Cache;
-use Symfony\Component\Process\Process;
 
 /**
  * Class CommandsController
@@ -69,9 +69,9 @@ class CommandsController
             }
         }
 
-        $history = Cache::get('nova-advanced-command-runner-history', []);
+        $history = CommandService::getHistory();
         array_walk($history, function (&$val) {
-            $val['time'] = Carbon::createFromTimestamp($val['time'])->diffForHumans();
+            $val['time'] = $val['time'] ? Carbon::createFromTimestamp($val['time'])->diffForHumans() : '';
         });
 
         $custom_commands = [];
@@ -91,74 +91,34 @@ class CommandsController
         ];
     }
 
+    /**
+     * @param Request $request
+     * @return array
+     */
     public function run(Request $request)
     {
-        $command = $request->input('command');
-        $run = $command['command'];
-        foreach ($command['variables'] as $variable ){
-            $run = str_replace('{'.$variable['label'].'}', $variable['value'], $run );
-        }
+        $command = CommandDto::createFromRequest( $request );
 
-        foreach ($command['flags'] as $flag){
-            if($flag['selected']){
-                $run .= ' '.$flag['flag'];
-            }
-        }
+        // Get history before running the command. Because if the user runs cache:forget command,
+        // We can still have our command history after clearing the cache.
+        $history = CommandService::getHistory();
 
-        $history = Cache::get('nova-advanced-command-runner-history', []);
+        $run = CommandService::runCommand( $command, new RunDto() );
 
-        $start = microtime(true);
-        try {
-            $buffer = new \Symfony\Component\Console\Output\BufferedOutput();
-            if($command['command_type'] === 'artisan'){
-                Artisan::call($run, [], $buffer);
-            } else if ($command['command_type'] === 'bash'){
-                Process::fromShellCommandline($run, base_path(), null, null, null)
-                    ->run(function ($type, $message) use ($buffer){
-                        $buffer->writeln($message);
-                    });
-            } else {
-                throw new \Exception('Unknown command type: '.$command['command_type']);
-            }
-            $result = $buffer->fetch();
-            $status = true;
-        } catch (\Exception $exception) {
-            $result = $exception->getMessage();
-            $status = false;
-        }
-        $duration = microtime(true) - $start;
-
-        if( $run === 'cache:forget nova-advanced-command-runner-history'){
-            $history = [
-                [
-                    'type' => $command['command_type'],
-                    'ran_by' => auth()->check() ? auth()->user()->name : '',
-                    'run'      => 'Clear Command Run History',
-                    'status'   => $status ? 'success' : 'error',
-                    'result'   => 'Command run history has been cleared successfully.',
-                    'time'     => now()->timestamp,
-                    'duration' => round($duration, 4),
-                ]
-            ];
+        if( $run->getCommand() === 'cache:forget nova-advanced-command-runner-history'){
+            $run->setResult('Command run history has been cleared successfully.');
+            $history = [ $run->toArray() ];
         } else {
             $history = array_slice($history, 0, config('nova-advanced-command-runner.history', 10) - 1);
-            array_unshift($history, [
-                'type' => $command['command_type'],
-                'ran_by' => auth()->check() ? auth()->user()->name : '',
-                'run'      => $run,
-                'status'   => $status ? 'success' : 'error',
-                'result'   => nl2br($result),
-                'time'     => now()->timestamp,
-                'duration' => round($duration, 4),
-            ]);
+            array_unshift($history, $run->toArray() );
         }
 
-        Cache::forever('nova-advanced-command-runner-history', $history);
+        CommandService::saveHistory( $history );
 
         array_walk($history, function (&$val) {
-            $val['time'] = Carbon::createFromTimestamp($val['time'])->diffForHumans();
+            $val['time'] = $val['time'] ? Carbon::createFromTimestamp($val['time'])->diffForHumans() : '';
         });
 
-        return [ 'status' => $status, 'result' => nl2br($result), 'history' => $history ];
+        return [ 'status' => $run->getStatus(), 'result' => nl2br( $run->getResult() ), 'history' => $history ];
     }
 }
