@@ -103,7 +103,7 @@ class CommandService
                 continue;
             }
 
-            $parsed .= $argv;
+            $parsed .= ' '.$argv;
         }
 
         return [ $parsed, $connection, $queue ];
