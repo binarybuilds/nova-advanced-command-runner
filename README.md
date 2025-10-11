@@ -1,3 +1,6 @@
+> [!WARNING]
+> This package is anadoned. Do not use this package. If you are using filament, Use [binarybuilds/filament-command-runner](https://github.com/binarybuilds/filament-command-runner)
+
 # Laravel Nova tool for running Artisan & Shell commands.
 
 This [Nova](https://nova.laravel.com) tool lets you run artisan and bash commands directly from nova.
